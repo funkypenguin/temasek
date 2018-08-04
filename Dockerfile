@@ -26,7 +26,7 @@ RUN apt-get update && \
 
 FROM debian:9
 
-# Daemon needs libreadline 
+# TEMASeK needs libreadline 
 RUN apt-get update && \
     apt-get install -y \
       libreadline-dev \
@@ -35,12 +35,12 @@ RUN apt-get update && \
 RUN mkdir -p /usr/local/bin && mkdir -p /tmp/checkpoints 
 
 WORKDIR /usr/local/bin
-COPY --from=builder /opt/temasek/build/src/Daemon .
+COPY --from=builder /opt/temasek/build/src/TEMASeK .
 COPY --from=builder /opt/temasek/build/src/walletd .
 COPY --from=builder /opt/temasek/build/src/zedwallet .
 COPY --from=builder /opt/temasek/build/src/poolwallet .
 COPY --from=builder /opt/temasek/build/src/miner .
 RUN mkdir -p /var/lib/temasek
 WORKDIR /var/lib/temasek
-ENTRYPOINT ["/usr/local/bin/Daemon"]
+ENTRYPOINT ["/usr/local/bin/TEMASeK"]
 CMD ["--no-console","--data-dir","/var/lib/temasek","--rpc-bind-ip","0.0.0.0","--rpc-bind-port","13002","--p2p-bind-port","13001"]
